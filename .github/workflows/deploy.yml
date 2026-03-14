@@ -78,4 +78,4 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no \
             ${{ secrets.PI_USER }}@pi.tail9f065e.ts.net \
-            "pideploy autodeploy ghcr.io/${{ github.repository }} ${{ github.sha }}"
+            "pideploy autodeploy ${{ github.sha }}"

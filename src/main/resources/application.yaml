@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: territory-backend
+
+  datasource:
+    url: postgresql://postgres.mjuagcloxtrkpqholnpf:vusAIfogpjPVvPpg@aws-1-ap-south-1.pooler.supabase.com:5432/postgres
+    username: postgres.mjuagcloxtrkpqholnpf
+    password: vusAIfogpjPVvPpg
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+    show-sql: false
+
+server:
+  port: 8080

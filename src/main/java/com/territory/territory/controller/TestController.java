@@ -1,12 +1,12 @@
-package com.territory.controller;
+package com.territory.territory.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.territory.entity.ExampleEntity;
-import com.territory.repository.ExampleRepository;
+import com.territory.territory.entity.ExampleEntity;
+import com.territory.territory.repository.ExampleRepository;
 
 import lombok.RequiredArgsConstructor;
 

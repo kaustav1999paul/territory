@@ -3,7 +3,7 @@ spring:
     name: territory-backend
 
   datasource:
-    url: postgresql://postgres.mjuagcloxtrkpqholnpf:vusAIfogpjPVvPpg@aws-1-ap-south-1.pooler.supabase.com:5432/postgres
+    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
     username: postgres.mjuagcloxtrkpqholnpf
     password: vusAIfogpjPVvPpg
     driver-class-name: org.postgresql.Driver

@@ -3,17 +3,17 @@ spring:
     name: territory-backend
 
   datasource:
-    url: jdbc:postgresql://aws-1-ap-south-1.pooler.supabase.com:5432/postgres
-    username: postgres.mjuagcloxtrkpqholnpf
-    password: vusAIfogpjPVvPpg
+    url: ${{ secrets.SUPABASE_URL }}
+    username: ${{ secrets.SUPABASE_USERNAME }}
+    password: ${{ secrets.SUPABASE_PASSWORD }}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
-    # properties:
-    #   hibernate:
-    #     dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
     show-sql: false
 
 server:

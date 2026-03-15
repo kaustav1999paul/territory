@@ -50,7 +50,7 @@ jobs:
     needs: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Connect to Tailscale Network 🔗 
+      - name: Connect to Tailscale Network 📡
         uses: tailscale/github-action@v2
         with:
           authkey: ${{ secrets.TS_AUTHKEY }}

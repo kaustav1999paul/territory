@@ -21,6 +21,14 @@ public class UserService {
     // Registers a new user and returns the saved user entity
     public User register(UserRegistrationRequest request) {
 
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
+
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already taken");
+        }
+
         User user = new User();
 
         user.setEmail(request.getEmail());

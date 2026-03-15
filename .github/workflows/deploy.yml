@@ -1,5 +1,4 @@
 name: Build & Deploy Backend
-
 on:
   push:
     branches:
@@ -10,43 +9,34 @@ permissions:
   packages: write
 
 jobs:
-
   Build:
-
     runs-on: ubuntu-latest
-
     steps:
-
-      - name: Checkout code 
+      - name: Checkout code from GitHub 📂
         uses: actions/checkout@v4
 
-
-      - name: Setup JDK
+      - name: Setup JDK 💻
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 25
 
-
-      - name: Build JAR
+      - name: Build JAR 🛠️
         run: |
           chmod +x gradlew
           ./gradlew clean bootJar
 
-
-      - name: Login to GHCR
+      - name: Login to GHCR 🔐
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-
-      - name: Setup Docker Buildx
+      - name: Setup Docker Buildx 🔨
         uses: docker/setup-buildx-action@v3
 
-
-      - name: Build and push Docker image
+      - name: Build and push Docker image 📦
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -56,21 +46,16 @@ jobs:
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.sha }}
 
-
   Deploy:
-
     needs: Build
     runs-on: ubuntu-latest
-
     steps:
-
-      - name: Connect to Tailscale Network 
+      - name: Connect to Tailscale Network 🔗 
         uses: tailscale/github-action@v2
         with:
           authkey: ${{ secrets.TS_AUTHKEY }}
 
-
-      - name: Deploy to Raspberry Pi
+      - name: Deploy to Raspberry Pi 🚀
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/id_rsa

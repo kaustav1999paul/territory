@@ -38,4 +38,15 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+
+    // Logs in a user and returns the user entity
+    public User login(String username, String password) {
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        return user;
+    }
 }

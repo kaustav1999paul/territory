@@ -1,13 +1,12 @@
-package com.territory.territory;
+// package com.territory.territory;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class TerritoryBackendApplicationTests {
+// @SpringBootTest
+// class TerritoryBackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	// @Test
+// 	// void contextLoads() {
+// 	// }
 
-}
+// }

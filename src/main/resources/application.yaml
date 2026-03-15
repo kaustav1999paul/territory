@@ -3,9 +3,9 @@ spring:
     name: territory-backend
 
   datasource:
-    url: ${{ secrets.SUPABASE_URL }}
-    username: ${{ secrets.SUPABASE_USERNAME }}
-    password: ${{ secrets.SUPABASE_PASSWORD }}
+    url: ${SUPABASE_URL}
+    username: ${SUPABASE_USER}
+    password: ${SUPABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -13,7 +13,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+          format_sql: true
     show-sql: false
 
 server:

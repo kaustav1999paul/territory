@@ -56,6 +56,11 @@ jobs:
           authkey: ${{ secrets.TS_AUTHKEY }}
 
       - name: Deploy to Raspberry Pi 🚀
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_USER: ${{ secrets.SUPABASE_USER }}
+          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/id_rsa

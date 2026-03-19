@@ -13,17 +13,13 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private final SecretKey secretKey =
-            Keys.hmacShaKeyFor("supersecretkeysupersecretkeysupersecretkey".getBytes());
-
+    private final SecretKey secretKey = Keys.hmacShaKeyFor("supersecretkeysupersecretkeysupersecretkey".getBytes());
     private final long EXPIRATION = 1000 * 60 * 60 * 24; // 24-hours
 
-    public String generateToken(String username) {
-
+    public String generateToken(String userId) {
         Date now = new Date();
-
         return Jwts.builder()
-                .subject(username)
+                .subject(userId)
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + EXPIRATION))
                 .signWith(secretKey)
@@ -31,7 +27,6 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
@@ -40,17 +35,22 @@ public class JwtUtil {
                 .getSubject();
     }
 
+    public String extractUserId(String token) {
+        return Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload()
+            .getSubject();
+    }
+
     public boolean validate(String token) {
-
         try {
-
             Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(token);
-
             return true;
-
         } catch (JwtException e) {
             return false;
         }

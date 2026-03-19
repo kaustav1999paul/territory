@@ -1,5 +1,7 @@
 package com.territory.territory.controller;
 
+import java.util.UUID;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,15 +54,15 @@ public class UserController {
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         User user = userService.login(request.getUsername(), request.getPassword());
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user.getId().toString());
         return ApiResponse.success(new LoginResponse(token));
     }
 
     @GetMapping("/profile")
     public ApiResponse<UserResponse> profile(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.substring(7);
-        String username = jwtUtil.extractUsername(token);
-        User user = userRepository.findByUsername(username)
+        String userId = jwtUtil.extractUsername(token);
+        User user = userRepository.findById(UUID.fromString(userId))
             .orElseThrow(() -> new RuntimeException("User not found"));
 
         UserResponse response = new UserResponse(

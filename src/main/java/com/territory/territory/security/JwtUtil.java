@@ -26,15 +26,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-    }
-
     public String extractUserId(String token) {
         return Jwts.parser()
             .verifyWith(secretKey)

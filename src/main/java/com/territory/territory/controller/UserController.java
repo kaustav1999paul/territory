@@ -61,7 +61,7 @@ public class UserController {
     @GetMapping("/profile")
     public ApiResponse<UserResponse> profile(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.substring(7);
-        String userId = jwtUtil.extractUsername(token);
+        String userId = jwtUtil.extractUserId(token);
         User user = userRepository.findById(UUID.fromString(userId))
             .orElseThrow(() -> new RuntimeException("User not found"));
 

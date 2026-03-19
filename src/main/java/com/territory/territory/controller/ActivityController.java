@@ -35,10 +35,8 @@ public class ActivityController {
             @RequestHeader("Authorization") String header
     ) {
 
-        String username = jwtUtil.extractUsername(header.substring(7));
-
-        UUID userId = UUID.nameUUIDFromBytes(username.getBytes());
-
+        String userIdStr = jwtUtil.extractUserId(header.substring(7));
+        UUID userId = UUID.fromString(userIdStr);
         UUID activityId = service.startActivity(userId);
 
         return ApiResponse.success(new ActivityStartResponse(activityId));
@@ -51,8 +49,8 @@ public class ActivityController {
             @Valid @RequestBody CompleteActivityRequest request
     ) {
 
-        String username = jwtUtil.extractUsername(header.substring(7));
-        UUID userId = UUID.nameUUIDFromBytes(username.getBytes());
+        String userIdStr = jwtUtil.extractUserId(header.substring(7));
+        UUID userId = UUID.fromString(userIdStr);
 
         return ApiResponse.success(
                 service.completeActivity(userId, id, request.getPoints())

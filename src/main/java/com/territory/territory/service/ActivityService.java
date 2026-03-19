@@ -96,10 +96,10 @@ public class ActivityService {
                 coordinates.toArray(new Coordinate[0])
         );
 
-        double area = polygon.getArea();
+        Double area = territoryRepo.calculateArea(polygon);
 
-        if (area < 0.00001) {
-            throw new RuntimeException("Area too small");
+        if (area == null || area < 100) {
+            throw new IllegalArgumentException("Area too small. Minimum 100 square meters required");
         }
 
         Territory territory = new Territory();

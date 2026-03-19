@@ -30,4 +30,12 @@ public class GlobalExceptionHandler {
                 .internalServerError()
                 .body(ApiResponse.error(500, ex.getMessage()));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<Void>> handleBadRequest(IllegalArgumentException ex) {
+
+        return ResponseEntity
+            .badRequest()
+            .body(ApiResponse.error(400, ex.getMessage()));
+    }
 }

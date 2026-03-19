@@ -126,7 +126,6 @@ public class ActivityService {
 
         activityRepo.save(session);
 
-
         return new CompleteActivityResponse(true, distance, area);
     }
 

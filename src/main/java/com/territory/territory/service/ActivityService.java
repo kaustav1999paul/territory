@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.territory.territory.dto.CompleteActivityResponse;
 import com.territory.territory.dto.GpsPointDto;
 import com.territory.territory.entity.ActivitySession;
+import com.territory.territory.entity.ActivityStatus;
 import com.territory.territory.entity.GpsPoint;
 import com.territory.territory.entity.Territory;
 import com.territory.territory.repository.ActivityRepository;
@@ -44,7 +45,7 @@ public class ActivityService {
         session.setId(UUID.randomUUID());
         session.setUserId(userId);
         session.setStartedAt(Instant.now());
-        session.setStatus("ONGOING");
+        session.setStatus(ActivityStatus.ONGOING);
 
         activityRepo.save(session);
 
@@ -111,6 +112,20 @@ public class ActivityService {
         territory.setCreatedAt(Instant.now());
 
         territoryRepo.save(territory);
+
+        ActivitySession session = activityRepo.findById(activityId)
+            .orElseThrow(() -> new RuntimeException("Activity not found"));
+
+        // prevent duplicate completion
+        if (session.getStatus() == ActivityStatus.COMPLETED) {
+            throw new IllegalStateException("Activity already completed");
+        }
+
+        session.setEndedAt(Instant.now());
+        session.setStatus(ActivityStatus.COMPLETED);
+
+        activityRepo.save(session);
+
 
         return new CompleteActivityResponse(true, distance, area);
     }

@@ -1,18 +1,22 @@
 package com.territory.territory.controller;
 
-import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.*;
-
-import com.territory.territory.service.ActivityService;
-import com.territory.territory.util.JwtUtil;
-import com.territory.territory.common.api.ApiResponse;
-import com.territory.territory.dto.CompleteActivityRequest;
-import com.territory.territory.dto.CompleteActivityResponse;
-
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.territory.territory.common.api.ApiResponse;
 import com.territory.territory.dto.ActivityStartResponse;
+import com.territory.territory.dto.CompleteActivityRequest;
+import com.territory.territory.dto.CompleteActivityResponse;
+import com.territory.territory.security.JwtUtil;
+import com.territory.territory.service.ActivityService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/activities")

@@ -42,5 +42,14 @@ public interface TerritoryRepository extends JpaRepository<Territory, UUID> {
     """, nativeQuery = true)
     byte[] subtractGeometry(Object existing, Object incoming);
 
+
+    @Query("""
+        SELECT u.username, SUM(t.area)
+        FROM Territory t
+        JOIN User u ON t.userId = u.id
+        GROUP BY u.username
+        ORDER BY SUM(t.area) DESC
+    """)
+    List<Object[]> getLeaderboard();
     
 }

@@ -3,6 +3,7 @@ package com.territory.territory.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.territory.territory.common.exception.BadRequestException;
 import com.territory.territory.dto.UserRegistrationRequest;
 import com.territory.territory.entity.User;
 import com.territory.territory.repository.UserRepository;
@@ -22,11 +23,11 @@ public class UserService {
     public User register(UserRegistrationRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already registered");
+            throw new BadRequestException("Email already registered");
         }
 
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already taken");
+            throw new BadRequestException("Username already taken");
         }
 
         User user = new User();
@@ -43,9 +44,9 @@ public class UserService {
     // Logs in a user and returns the user entity
     public User login(String username, String password) {
         User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+            .orElseThrow(() -> new BadRequestException("Invalid credentials"));
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new BadRequestException("Invalid credentials");
         }
         return user;
     }

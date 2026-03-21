@@ -15,6 +15,8 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.WKBReader;
 import org.springframework.stereotype.Service;
 
+import com.territory.territory.common.exception.BadRequestException;
+import com.territory.territory.common.exception.NotFoundException;
 import com.territory.territory.dto.CompleteActivityResponse;
 import com.territory.territory.dto.GpsPointDto;
 import com.territory.territory.entity.ActivitySession;
@@ -66,7 +68,7 @@ public class ActivityService {
 
         //  Basic validation
         if (points.size() < 10) {
-            throw new RuntimeException("Not enough points to form loop");
+            throw new BadRequestException("Not enough points to form loop");
         }
 
         GpsPointDto first = points.get(0);
@@ -78,7 +80,7 @@ public class ActivityService {
         );
 
         if (distance > 20) {
-            throw new RuntimeException("Loop not closed. Distance: " + distance + " meters");
+            throw new BadRequestException("Loop not closed. Distance: " + distance + " meters");
         }
 
         //  Save GPS points
@@ -135,7 +137,7 @@ public class ActivityService {
             try {
                 geom = wkbReader.read(diffWkb);
             } catch (Exception e) {
-                throw new RuntimeException("Failed to parse geometry");
+                throw new BadRequestException("Failed to parse geometry");
             }
 
             //  Fully eaten → delete
@@ -196,7 +198,7 @@ public class ActivityService {
         // =========================================================
 
         ActivitySession session = activityRepo.findById(activityId)
-                .orElseThrow(() -> new RuntimeException("Activity not found"));
+                .orElseThrow(() -> new NotFoundException("Activity not found"));
 
         if (session.getStatus() == ActivityStatus.COMPLETED) {
             throw new IllegalStateException("Activity already completed");

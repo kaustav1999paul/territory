@@ -19,11 +19,28 @@ public interface TerritoryRepository extends JpaRepository<Territory, UUID> {
 
     @Query(value = """
     SELECT 
-        id,
-        area,
-        ST_AsGeoJSON(polygon) as geojson
-    FROM territories
-    WHERE user_id = :userId
+        id, area, ST_AsGeoJSON(polygon) as geojson
+        FROM territories
+        WHERE user_id = :userId
     """, nativeQuery = true)
     List<Object[]> findUserTerritories(UUID userId);
+
+
+    @Query(value = """
+        SELECT id, user_id, polygon
+        FROM territories
+        WHERE ST_Intersects(polygon, CAST(:polygon AS geometry))
+    """, nativeQuery = true)
+    List<Object[]> findIntersectingTerritories(Object polygon);
+
+
+    @Query(value = """
+        SELECT ST_AsBinary(ST_Difference(
+        CAST(:existing AS geometry),
+        CAST(:incoming AS geometry)
+        ))
+    """, nativeQuery = true)
+    byte[] subtractGeometry(Object existing, Object incoming);
+
+    
 }
